@@ -1,0 +1,22 @@
+MOTIONMIND — AI WORKOUT ASSISTANT
+
+WINDOWS QUICK START
+1. Install Python 3.12 (64-bit), including the Python Launcher.
+2. Extract this entire folder to a writable location.
+3. Double-click setup.bat. Initial installation requires internet.
+4. Your browser opens http://127.0.0.1:8000.
+5. Click Demo > Start workout to try it without a camera.
+6. Finish the demo, switch to Webcam, Connect camera and allow permission.
+7. Next time, double-click start.bat.
+
+Node.js is NOT required for this prebuilt release.
+Keep the terminal window open while using the app.
+
+Linux/macOS: bash setup.sh; subsequent runs: bash start.sh.
+
+README.md contains full instructions.
+docs/TROUBLESHOOTING.md covers installation, camera and model errors.
+docs/VALIDATION.md states what was tested and what needs checking on your hardware.
+
+This is a local, single-user release with guided exercise rules.
+Motion prediction is a deterministic baseline, not a trained prediction model.
