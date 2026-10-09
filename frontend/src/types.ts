@@ -1,0 +1,13 @@
+export type Landmark={x:number;y:number;z:number;visibility:number};
+export type Exercise={id:string;name:string;category:string;muscles:string;metric:string;rest:number;peak:number;view:string;instructions:string;difficulty:string;sets:number;reps:number;form_rules:string[];rep_logic:string;tracking:string};
+export type PlanItem={exercise:string;sets:number;reps:number};
+export type Plan={id:number;name:string;items:PlanItem[]};
+export type Segment={exercise:string;set:number;reps:number;hold_seconds:number;average_form:number|null;average_rom:number|null;average_tempo:number|null};
+export type Summary={segments:Segment[];total_reps:number;hold_seconds:number;average_form:number|null;average_rom:number|null;average_tempo:number|null;calories_estimate:number;insights?:string[]};
+export type SessionState={session_id:string;status:string;mode:'camera'|'demo';exercise:string;exercise_name:string;exercise_index:number;set:number;sets:number;target:number;duration:number;set_complete:boolean;complete:boolean;progress:number;summary:Summary};
+export type Motion={valid:boolean;reps:number;hold_seconds:number;phase:string;confidence:number;form_score:number|null;score_parts?:Record<string,number|null>;angle?:number;angles?:Record<string,number>;side?:string;rom?:{current:number;average:number|null;best:number|null};tempo?:number[]|null;feedback:string;pose:Landmark[];prediction?:{label:string;method:string;reliability:number|null;eta:number|null;pose:Landmark[]}|null;processing_ms?:number;recognition?:string;state:SessionState};
+export type HistoryRow={id:string;started:string;finished:string|null;mode:string;status:string;duration:number;summary:Summary};
+export type Settings={cameraId:string;resolution:string;fps:number;performance:string;skeleton:boolean;voice:boolean;sound:boolean;prediction:boolean;theme:'midnight'|'slate';units:'kg'|'lb'};
+export const DEFAULT_SETTINGS:Settings={cameraId:'',resolution:'1280x720',fps:12,performance:'balanced',skeleton:true,voice:false,sound:false,prediction:true,theme:'midnight',units:'kg'};
+export const BONES=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,29],[29,31],[28,30],[30,32]];
+export const fmtTime=(n=0)=>`${Math.floor(n/60).toString().padStart(2,'0')}:${Math.floor(n%60).toString().padStart(2,'0')}`;

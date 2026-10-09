@@ -1,0 +1,8 @@
+import React from 'react';import {describe,it,expect,vi,afterEach} from 'vitest';import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
+import PlanEditor from './PlanEditor';import {api} from '../api';import type {Exercise,Plan} from '../types';
+vi.mock('../api',()=>({api:vi.fn()}));afterEach(()=>{cleanup();vi.clearAllMocks()});
+const plan:Plan={id:1,name:'Foundations',items:[{exercise:'squat',sets:3,reps:12},{exercise:'plank',sets:2,reps:30}]};const exercises=[{id:'squat',name:'Squat'},{id:'plank',name:'Plank'}] as Exercise[];
+describe('Plan editor',()=>{
+ it('persists reordered exercises with changed targets',async()=>{const save=vi.fn();vi.mocked(api).mockResolvedValue({...plan});render(<PlanEditor plan={plan} exercises={exercises} onClose={()=>{}} onSave={save}/>);fireEvent.click(screen.getByLabelText('Move exercise 2 up'));fireEvent.change(screen.getByLabelText('Target 1'),{target:{value:'45'}});fireEvent.click(screen.getByRole('button',{name:'Save plan'}));await waitFor(()=>expect(save).toHaveBeenCalled());expect(api).toHaveBeenCalledWith('/workouts/1','PUT',{name:'Foundations',items:[{exercise:'plank',sets:2,reps:45},{exercise:'squat',sets:3,reps:12}]});});
+ it('shows backend validation failure without closing',async()=>{vi.mocked(api).mockRejectedValue(Error('Invalid target'));const save=vi.fn();render(<PlanEditor plan={plan} exercises={exercises} onClose={()=>{}} onSave={save}/>);fireEvent.click(screen.getByRole('button',{name:'Save plan'}));await screen.findByRole('alert');expect(screen.getByRole('alert').textContent).toContain('Invalid target');expect(save).not.toHaveBeenCalled();});
+});
